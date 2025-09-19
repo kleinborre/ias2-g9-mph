@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+                                  http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="AttendanceAdminReport" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="40" bottomMargin="40" uuid="7748c8d2-44b5-4e4e-bf50-2643625cbf54">
+
+    <field name="employeeID" class="java.lang.Integer"/>
+    <field name="employeeName" class="java.lang.String"/>
+    <field name="date" class="java.lang.String"/>
+    <field name="logIn" class="java.lang.String"/>
+    <field name="logOut" class="java.lang.String"/>
+    <field name="workedHours" class="java.lang.String"/>
+
+    <!-- Group by employeeID -->
+    <group name="EmployeeGroup">
+        <groupExpression><![CDATA[$F{employeeID}]]></groupExpression>
+        <groupHeader>
+            <band height="110">
+                <!-- Employee/Section Header -->
+                <staticText>
+                    <reportElement x="0" y="0" width="535" height="20" forecolor="#003366" uuid="d32458be-6fa4-4483-932e-dab5227cdaeb"/>
+                    <textElement textAlignment="Center">
+                        <font fontName="SansSerif" size="15" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[MotorPH Payroll System]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement x="0" y="22" width="535" height="28" forecolor="#1687A7" uuid="2be2cf15-974c-4866-a63a-7e5e17913c0c"/>
+                    <textElement textAlignment="Center">
+                        <font fontName="SansSerif" size="22" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[ATTENDANCE (Admin)]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement x="0" y="60" width="100" height="16" uuid="9a2f6ba1-2823-4441-87ad-3baf6244e4e4"/>
+                    <textElement textAlignment="Left">
+                        <font fontName="SansSerif" size="12" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[Employee No:]]></text>
+                </staticText>
+                <textField>
+                    <reportElement x="105" y="60" width="60" height="16" uuid="e6c5e7d0-70ea-4a48-bad3-f01e56eb0df6"/>
+                    <textElement textAlignment="Left">
+                        <font fontName="SansSerif" size="12"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA[$F{employeeID}]]></textFieldExpression>
+                </textField>
+                <staticText>
+                    <reportElement x="180" y="60" width="120" height="16" uuid="fb374378-9a1c-49c7-8fa2-8ab9b0b1588b"/>
+                    <textElement textAlignment="Left">
+                        <font fontName="SansSerif" size="12" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[Name of Employee:]]></text>
+                </staticText>
+                <textField>
+                    <reportElement x="305" y="60" width="200" height="16" uuid="b9a6246b-59f0-4372-8f26-1cfbdc2ac7ae"/>
+                    <textElement textAlignment="Left">
+                        <font fontName="SansSerif" size="12"/>
+                    </textElement>
+                    <textFieldExpression><![CDATA[$F{employeeName}]]></textFieldExpression>
+                </textField>
+                <!-- Column Headers (one per employee page) -->
+                <staticText>
+                    <reportElement x="0" y="90" width="90" height="20" backcolor="#367588" forecolor="#FFFFFF" uuid="9d9d432d-33a8-41e7-8095-384b1ea232b8"/>
+                    <textElement textAlignment="Center">
+                        <font fontName="SansSerif" size="12" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[Date]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement x="90" y="90" width="110" height="20" backcolor="#40E0D0" forecolor="#FFFFFF" uuid="f44b285d-2a0a-430e-9708-9b98d13ca9ad"/>
+                    <textElement textAlignment="Center">
+                        <font fontName="SansSerif" size="12" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[Log In]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement x="200" y="90" width="110" height="20" backcolor="#00CED1" forecolor="#FFFFFF" uuid="9cc14281-bf14-47ee-a701-f0a2f678fbe3"/>
+                    <textElement textAlignment="Center">
+                        <font fontName="SansSerif" size="12" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[Log Out]]></text>
+                </staticText>
+                <staticText>
+                    <reportElement x="310" y="90" width="120" height="20" backcolor="#00FFFF" forecolor="#367588" uuid="6dfe9b08-dbe4-4715-90b2-d9c516e82681"/>
+                    <textElement textAlignment="Center">
+                        <font fontName="SansSerif" size="12" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[Worked Hours]]></text>
+                </staticText>
+            </band>
+        </groupHeader>
+        <groupFooter>
+            <band height="30">
+                <staticText>
+                    <reportElement x="0" y="5" width="220" height="20" uuid="54a2e2f8-8833-43ba-8c46-63d15176b6e1"/>
+                    <textElement textAlignment="Left">
+                        <font fontName="SansSerif" size="12" isBold="true"/>
+                    </textElement>
+                    <text><![CDATA[End of Attendance Records]]></text>
+                </staticText>
+                <break type="Page">
+                    <reportElement x="0" y="25" width="10" height="5" uuid="7ec8b797-4207-43ab-993e-df0b7a5480e4"/>
+                </break>
+            </band>
+        </groupFooter>
+    </group>
+
+    <detail>
+        <band height="18">
+            <textField>
+                <reportElement x="0" y="0" width="90" height="18" uuid="e380dc18-84fa-49e5-bb6f-2ca94be7e443"/>
+                <textElement textAlignment="Center">
+                    <font fontName="SansSerif" size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="90" y="0" width="110" height="18" uuid="57d9e352-1ae6-43b4-bd9b-f2059d13de34"/>
+                <textElement textAlignment="Center">
+                    <font fontName="SansSerif" size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{logIn}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="200" y="0" width="110" height="18" uuid="a4650a6e-2ea8-40fa-9117-5d7d5f29edfb"/>
+                <textElement textAlignment="Center">
+                    <font fontName="SansSerif" size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{logOut}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="310" y="0" width="120" height="18" uuid="173c1bf1-06a9-447f-b34d-275e3e6a0e33"/>
+                <textElement textAlignment="Center">
+                    <font fontName="SansSerif" size="11"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{workedHours}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="PayrollReport"
+              pageWidth="842" pageHeight="595" columnWidth="782" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20"
+              uuid="5be84549-54c4-4c4e-b2bb-0d49cfa290c1">
+
+    <!-- Styles -->
+    <style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold" forecolor="#367588"/>
+    <style name="SubTitle" fontName="Arial" fontSize="18" isBold="true" pdfFontName="Helvetica-Bold" forecolor="#1b3a5e"/>
+    <style name="Header" fontName="Arial" fontSize="10" isBold="true" pdfFontName="Helvetica-Bold" backcolor="#e1f1fa" forecolor="#367588" mode="Opaque"/>
+    <style name="Column" fontName="Arial" fontSize="11" isBold="true" forecolor="#367588"/>
+    <style name="Row" fontName="Arial" fontSize="11"/>
+    <style name="TotalLabel" fontName="Arial" fontSize="12" isBold="true" forecolor="#333333"/>
+    <style name="TotalValue" fontName="Arial" fontSize="13" isBold="true" forecolor="#188e53"/>
+    <style name="NetPayValue" fontName="Arial" fontSize="15" isBold="true" forecolor="#367588"/>
+
+    <!-- Parameters -->
+    <parameter name="payrollPeriod" class="java.lang.String"/>
+    <parameter name="totalGross" class="java.lang.String"/>
+    <parameter name="totalBenefits" class="java.lang.String"/>
+    <parameter name="totalDeductions" class="java.lang.String"/>
+    <parameter name="totalNetPay" class="java.lang.String"/>
+
+    <!-- Fields -->
+    <field name="payslipNo" class="java.lang.String"/>
+    <field name="employeeID" class="java.lang.Integer"/>
+    <field name="employeeName" class="java.lang.String"/>
+    <field name="employeePositionDepartment" class="java.lang.String"/>
+    <field name="grossIncome" class="java.lang.Double"/>
+    <field name="totalBenefits" class="java.lang.Double"/>
+    <field name="totalDeductions" class="java.lang.Double"/>
+    <field name="takeHomePay" class="java.lang.Double"/>
+    <field name="periodStartDate" class="java.sql.Date"/>
+    <field name="periodEndDate" class="java.sql.Date"/>
+
+    <!-- Title Band -->
+    <title>
+        <band height="80">
+            <!-- Main Title -->
+            <staticText>
+                <reportElement style="Title" x="0" y="0" width="782" height="40" uuid="6b8c8c91-bf60-4a08-a41f-dfe3a0c41387"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[MotorPH Payroll System]]></text>
+            </staticText>
+            <!-- Subtitle/period -->
+            <textField>
+                <reportElement style="SubTitle" x="0" y="45" width="782" height="28" uuid="bc7b19e8-75de-43a2-97a7-1116b13daeb9"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA["Payroll Report for the " + $P{payrollPeriod}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <!-- Column Header -->
+    <columnHeader>
+        <band height="28">
+            <rectangle>
+                <reportElement x="0" y="0" width="782" height="28" backcolor="#e1f1fa" mode="Opaque" uuid="7d8b41c6-12ae-46ad-9f36-13ef276e19e1"/>
+            </rectangle>
+            <staticText>
+                <reportElement style="Header" x="0" y="3" width="80" height="22" uuid="cb4e6a6a-2096-4c47-9849-cfcd27eaf086"/>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[PAYSILP NO]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="Header" x="80" y="3" width="60" height="22" uuid="d3efb8b6-1f98-4258-b6ce-f98c657ac92e"/>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[EMPLOYEE ID]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="Header" x="140" y="3" width="120" height="22" uuid="8c7a1f12-c352-4392-8db1-98a30a62b2f4"/>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[EMPLOYEE NAME]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="Header" x="260" y="3" width="110" height="22" uuid="ab1b0bca-4435-4a51-8bca-8f6fd82ce6d6"/>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[POSITION/DEPARTMENT]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="Header" x="370" y="3" width="90" height="22" uuid="45c3d6f6-52da-4c68-8b85-bec3fd8b9c5b"/>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[GROSS]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="Header" x="460" y="3" width="90" height="22" uuid="e893f80b-d788-4bdb-b38e-04253ea8c109"/>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[CONTRIBUTION]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="Header" x="550" y="3" width="90" height="22" uuid="5832e94f-37ac-44c7-b2e2-5a0b404a729d"/>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[DEDUCTION]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="Header" x="640" y="3" width="80" height="22" uuid="d1561cf7-0411-4e49-bd2f-55da2ab2ce44"/>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[NET PAY]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <!-- Detail Band (table rows) -->
+    <detail>
+        <band height="22">
+            <textField>
+                <reportElement style="Row" x="0" y="0" width="80" height="22" uuid="6c98b7f7-d4b6-4e45-89a8-c0e0bc6ebf89"/>
+                <textElement textAlignment="Center"/>
+                <textFieldExpression><![CDATA[$F{payslipNo}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement style="Row" x="80" y="0" width="60" height="22" uuid="da92c30e-c50f-4e1b-8c69-2ac4fa0913d2"/>
+                <textElement textAlignment="Center"/>
+                <textFieldExpression><![CDATA[$F{employeeID}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement style="Row" x="140" y="0" width="120" height="22" uuid="a4b98f38-33c6-4108-9485-c0ccf34cbdba"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{employeeName}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement style="Row" x="260" y="0" width="110" height="22" uuid="b1ee86bc-8406-487e-9a4c-6e9d5e7f26e8"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{employeePositionDepartment}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00">
+                <reportElement style="Row" x="370" y="0" width="90" height="22" uuid="b92aefa2-6237-408e-a6b4-b53e7d80306d"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[$F{grossIncome}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00">
+                <reportElement style="Row" x="460" y="0" width="90" height="22" uuid="7a4a0e92-3778-4e90-89a7-50b41e273a2e"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[$F{totalBenefits}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00">
+                <reportElement style="Row" x="550" y="0" width="90" height="22" uuid="6e4f7a8e-e97d-4b7a-b3d0-fc342eeaa4bc"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[$F{totalDeductions}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00">
+                <reportElement style="Row" x="640" y="0" width="80" height="22" uuid="f8c8be67-eef1-47ef-9732-7ca6b4f26935"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA[$F{takeHomePay}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+    <!-- Summary Band (totals) -->
+    <summary>
+        <band height="75">
+            <rectangle>
+                <reportElement x="0" y="0" width="782" height="75" backcolor="#f8fafb" mode="Opaque" uuid="da6b48be-9e31-41a0-83db-0d792d685f7d"/>
+            </rectangle>
+            <staticText>
+                <reportElement style="TotalLabel" x="25" y="15" width="180" height="20" uuid="9e8d2458-7c89-46fd-87b8-2e273b18c7ef"/>
+                <text><![CDATA[Total Gross Earnings:]]></text>
+            </staticText>
+            <textField>
+                <reportElement style="TotalValue" x="210" y="15" width="150" height="20" uuid="25e7e36b-1c81-456d-9b76-24d3723f40d1"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$P{totalGross}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement style="TotalLabel" x="25" y="35" width="180" height="20" uuid="f76ee320-4bdb-49a2-85eb-249cc5eb4a23"/>
+                <text><![CDATA[Total Contributions:]]></text>
+            </staticText>
+            <textField>
+                <reportElement style="TotalValue" x="210" y="35" width="150" height="20" uuid="4b59dfc3-b38d-4f7a-94ae-fcc8d236b3bc"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$P{totalBenefits}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement style="TotalLabel" x="25" y="55" width="180" height="20" uuid="5d25a7ba-6b53-42a5-b5d8-46a2eab1a5f1"/>
+                <text><![CDATA[Total Deductions:]]></text>
+            </staticText>
+            <textField>
+                <reportElement style="TotalValue" x="210" y="55" width="150" height="20" uuid="686edee1-928c-4c5c-bc35-7733b5403127"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$P{totalDeductions}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement style="TotalLabel" x="460" y="25" width="130" height="24" uuid="a7d57c3f-e9d6-4010-a62a-e7246a8d36c6"/>
+                <textElement textAlignment="Right"/>
+                <text><![CDATA[Total Net Pay:]]></text>
+            </staticText>
+            <textField>
+                <reportElement style="NetPayValue" x="600" y="25" width="160" height="30" uuid="b0d265fc-3813-4331-82d2-f2e5cce8f54f"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$P{totalNetPay}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>

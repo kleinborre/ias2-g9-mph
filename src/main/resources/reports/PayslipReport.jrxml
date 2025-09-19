@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+    name="PayslipReport" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="40" bottomMargin="40" uuid="abcd1234-abcd-1234-abcd-123456789abc">
+
+    <parameter name="EMPLOYEE_ID" class="java.lang.String"/>
+    <parameter name="EMPLOYEE_NAME" class="java.lang.String"/>
+    <parameter name="POSITION_DEPT" class="java.lang.String"/>
+    <parameter name="PAYSLIP_NO" class="java.lang.String"/>
+    <parameter name="PERIOD_LABEL" class="java.lang.String"/>
+    <parameter name="PERIOD_START" class="java.lang.String"/>
+    <parameter name="PERIOD_END" class="java.lang.String"/>
+    <parameter name="MONTH_YEAR" class="java.lang.String"/>
+    <parameter name="MONTH_LABEL" class="java.lang.String"/>
+
+    <field name="monthlyRate" class="java.lang.String"/>
+    <field name="dailyRate" class="java.lang.String"/>
+    <field name="daysWorked" class="java.lang.String"/>
+    <field name="overtimeHours" class="java.lang.String"/>
+    <field name="grossIncome" class="java.lang.String"/>
+    <field name="riceSubsidy" class="java.lang.String"/>
+    <field name="phoneAllowance" class="java.lang.String"/>
+    <field name="clothingAllowance" class="java.lang.String"/>
+    <field name="totalBenefits" class="java.lang.String"/>
+    <field name="sss" class="java.lang.String"/>
+    <field name="philhealth" class="java.lang.String"/>
+    <field name="pagibig" class="java.lang.String"/>
+    <field name="withholdingTax" class="java.lang.String"/>
+    <field name="totalDeductions" class="java.lang.String"/>
+    <field name="benefits" class="java.lang.String"/>
+    <field name="deductions" class="java.lang.String"/>
+    <field name="netPay" class="java.lang.String"/>
+
+    <title>
+        <band height="85">
+            <staticText>
+                <reportElement x="0" y="0" width="535" height="24" forecolor="#003366"/>
+                <textElement textAlignment="Center">
+                    <font fontName="SansSerif" size="18" isBold="true"/>
+                </textElement>
+                <text><![CDATA[MotorPH Payroll System]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="0" y="28" width="535" height="22"/>
+                <textElement textAlignment="Center">
+                    <font fontName="SansSerif" size="15" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Payslip for " + $P{PERIOD_LABEL}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <pageHeader>
+        <band height="72">
+            <staticText>
+                <reportElement x="0" y="0" width="120" height="16"/>
+                <textElement textAlignment="Left"><font fontName="SansSerif" size="12" isBold="true"/></textElement>
+                <text><![CDATA[Employee ID:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="125" y="0" width="120" height="16"/>
+                <textElement textAlignment="Left"><font fontName="SansSerif" size="12"/></textElement>
+                <textFieldExpression><![CDATA[$P{EMPLOYEE_ID}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="18" width="120" height="16"/>
+                <textElement textAlignment="Left"><font fontName="SansSerif" size="12" isBold="true"/></textElement>
+                <text><![CDATA[Employee Name:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="125" y="18" width="250" height="16"/>
+                <textElement textAlignment="Left"><font fontName="SansSerif" size="12"/></textElement>
+                <textFieldExpression><![CDATA[$P{EMPLOYEE_NAME}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="36" width="120" height="16"/>
+                <textElement textAlignment="Left"><font fontName="SansSerif" size="12" isBold="true"/></textElement>
+                <text><![CDATA[Position/Dept:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="125" y="36" width="250" height="16"/>
+                <textElement textAlignment="Left"><font fontName="SansSerif" size="12"/></textElement>
+                <textFieldExpression><![CDATA[$P{POSITION_DEPT}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="54" width="120" height="16"/>
+                <textElement textAlignment="Left"><font fontName="SansSerif" size="12" isBold="true"/></textElement>
+                <text><![CDATA[Pay Period:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="125" y="54" width="300" height="16"/>
+                <textElement textAlignment="Left"><font fontName="SansSerif" size="12"/></textElement>
+                <textFieldExpression><![CDATA[$P{PERIOD_LABEL}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+
+    <detail>
+        <band height="420">
+            <!-- Earnings -->
+            <staticText>
+                <reportElement x="0" y="0" width="250" height="20" forecolor="#1687A7"/>
+                <textElement textAlignment="Left"><font fontName="SansSerif" size="14" isBold="true"/></textElement>
+                <text><![CDATA[Earnings]]></text>
+            </staticText>
+            <staticText><reportElement x="0" y="24" width="120" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Monthly Rate:]]></text></staticText>
+            <textField><reportElement x="130" y="24" width="100" height="15"/><textElement/><textFieldExpression><![CDATA[$F{monthlyRate}]]></textFieldExpression></textField>
+            <staticText><reportElement x="0" y="39" width="120" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Daily Rate:]]></text></staticText>
+            <textField><reportElement x="130" y="39" width="100" height="15"/><textElement/><textFieldExpression><![CDATA[$F{dailyRate}]]></textFieldExpression></textField>
+            <staticText><reportElement x="0" y="54" width="120" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Days Worked:]]></text></staticText>
+            <textField><reportElement x="130" y="54" width="100" height="15"/><textElement/><textFieldExpression><![CDATA[$F{daysWorked}]]></textFieldExpression></textField>
+            <staticText><reportElement x="0" y="69" width="120" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Overtime Hours:]]></text></staticText>
+            <textField><reportElement x="130" y="69" width="100" height="15"/><textElement/><textFieldExpression><![CDATA[$F{overtimeHours}]]></textFieldExpression></textField>
+            <staticText><reportElement x="0" y="84" width="120" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Gross Income:]]></text></staticText>
+            <textField><reportElement x="130" y="84" width="100" height="15"/><textElement/><textFieldExpression><![CDATA[$F{grossIncome}]]></textFieldExpression></textField>
+
+            <!-- Benefits -->
+            <staticText>
+                <reportElement x="0" y="110" width="250" height="20" forecolor="#1687A7"/>
+                <textElement textAlignment="Left"><font fontName="SansSerif" size="14" isBold="true"/></textElement>
+                <text><![CDATA[Benefits]]></text>
+            </staticText>
+            <staticText><reportElement x="0" y="134" width="120" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Rice Subsidy:]]></text></staticText>
+            <textField><reportElement x="130" y="134" width="100" height="15"/><textElement/><textFieldExpression><![CDATA[$F{riceSubsidy}]]></textFieldExpression></textField>
+            <staticText><reportElement x="0" y="149" width="120" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Phone Allowance:]]></text></staticText>
+            <textField><reportElement x="130" y="149" width="100" height="15"/><textElement/><textFieldExpression><![CDATA[$F{phoneAllowance}]]></textFieldExpression></textField>
+            <staticText><reportElement x="0" y="164" width="120" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Clothing Allowance:]]></text></staticText>
+            <textField><reportElement x="130" y="164" width="100" height="15"/><textElement/><textFieldExpression><![CDATA[$F{clothingAllowance}]]></textFieldExpression></textField>
+            <staticText><reportElement x="0" y="179" width="120" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Total Benefits:]]></text></staticText>
+            <textField><reportElement x="130" y="179" width="100" height="15"/><textElement/><textFieldExpression><![CDATA[$F{totalBenefits}]]></textFieldExpression></textField>
+
+            <!-- Deductions -->
+            <staticText>
+                <reportElement x="0" y="210" width="250" height="20" forecolor="#1687A7"/>
+                <textElement textAlignment="Left"><font fontName="SansSerif" size="14" isBold="true"/></textElement>
+                <text><![CDATA[Deductions]]></text>
+            </staticText>
+            <staticText><reportElement x="0" y="234" width="120" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[SSS:]]></text></staticText>
+            <textField><reportElement x="130" y="234" width="100" height="15"/><textElement/><textFieldExpression><![CDATA[$F{sss}]]></textFieldExpression></textField>
+            <staticText><reportElement x="0" y="249" width="120" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[PhilHealth:]]></text></staticText>
+            <textField><reportElement x="130" y="249" width="100" height="15"/><textElement/><textFieldExpression><![CDATA[$F{philhealth}]]></textFieldExpression></textField>
+            <staticText><reportElement x="0" y="264" width="120" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Pag-IBIG:]]></text></staticText>
+            <textField><reportElement x="130" y="264" width="100" height="15"/><textElement/><textFieldExpression><![CDATA[$F{pagibig}]]></textFieldExpression></textField>
+            <staticText><reportElement x="0" y="279" width="120" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Withholding Tax:]]></text></staticText>
+            <textField><reportElement x="130" y="279" width="100" height="15"/><textElement/><textFieldExpression><![CDATA[$F{withholdingTax}]]></textFieldExpression></textField>
+            <staticText><reportElement x="0" y="294" width="120" height="15"/><textElement><font isBold="true"/></textElement><text><![CDATA[Total Deductions:]]></text></staticText>
+            <textField><reportElement x="130" y="294" width="100" height="15"/><textElement/><textFieldExpression><![CDATA[$F{totalDeductions}]]></textFieldExpression></textField>
+
+            <!-- Net Pay -->
+            <staticText>
+                <reportElement x="0" y="340" width="250" height="30" forecolor="#003366"/>
+                <textElement textAlignment="Left"><font fontName="SansSerif" size="18" isBold="true"/></textElement>
+                <text><![CDATA[Net Pay:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="130" y="340" width="250" height="30"/>
+                <textElement textAlignment="Left">
+                    <font fontName="SansSerif" size="18" isBold="true"/>
+                    <paragraph lineSpacing="Single"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{netPay}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>
