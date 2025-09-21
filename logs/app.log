@@ -1,1 +1,54 @@
 2025-09-21 00:16:31 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_SUCCESS details=null ip=null
+2025-09-21 16:08:40 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_FAILED details=failed_attempts=1 ip=null
+2025-09-21 16:08:40 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_FAILED details=failed_attempts=2 ip=null
+2025-09-21 16:08:40 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_FAILED details=failed_attempts=3 ip=null
+2025-09-21 16:08:40 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_FAILED details=failed_attempts=4 ip=null
+2025-09-21 16:08:40 INFO  util.AuditLogger - [audit] user=U10012 action=ACCOUNT_LOCKED details=failed_attempts=5, locked_until=2025-09-21T16:23:40.487009 ip=null
+2025-09-21 16:08:40 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_LOCKED details=locked_until=2025-09-21 16:23:40.0 ip=null
+2025-09-21 16:08:40 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_FAILED details=failed_attempts=1 ip=null
+2025-09-21 16:08:40 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_FAILED details=failed_attempts=2 ip=null
+2025-09-21 16:08:40 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_SUCCESS details=null ip=null
+2025-09-21 16:24:28 INFO  util.AuditLogger - [audit] user=U10012 action=TEST_AUDIT_EVENT details=unit-test proof ip=127.0.0.1
+2025-09-21 16:25:04 INFO  util.AuditLogger - [audit] user=TESTSEC002 action=USER_UPDATED details=role=EMPLOYEE ip=null
+2025-09-21 16:25:04 INFO  util.AuditLogger - [audit] user=TESTSEC001 action=USER_CREATED details=role=EMPLOYEE ip=null
+2025-09-21 16:28:33 INFO  util.AuditLogger - [audit] user=U10012 action=TEST_AUDIT_EVENT details=unit-test proof ip=127.0.0.1
+2025-09-21 16:28:33 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_FAILED details=failed_attempts=1 ip=null
+2025-09-21 16:28:33 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_FAILED details=failed_attempts=2 ip=null
+2025-09-21 16:28:33 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_FAILED details=failed_attempts=3 ip=null
+2025-09-21 16:28:33 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_FAILED details=failed_attempts=4 ip=null
+2025-09-21 16:28:33 INFO  util.AuditLogger - [audit] user=U10012 action=ACCOUNT_LOCKED details=failed_attempts=5, locked_until=2025-09-21T16:43:33.949794400 ip=null
+2025-09-21 16:28:33 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_LOCKED details=locked_until=2025-09-21 16:43:34.0 ip=null
+2025-09-21 16:28:34 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_FAILED details=failed_attempts=1 ip=null
+2025-09-21 16:28:34 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_FAILED details=failed_attempts=2 ip=null
+2025-09-21 16:28:34 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_SUCCESS details=null ip=null
+2025-09-21 16:28:34 INFO  util.AuditLogger - [audit] user=TESTSEC002 action=USER_UPDATED details=role=EMPLOYEE ip=null
+2025-09-21 16:28:34 INFO  util.AuditLogger - [audit] user=TESTSEC001 action=USER_CREATED details=role=EMPLOYEE ip=null
+2025-09-21 17:29:25 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_SUCCESS details=null ip=null
+2025-09-21 17:30:25 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_SUCCESS details=null ip=null
+2025-09-21 17:30:34 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_FAILED details=failed_attempts=1 ip=null
+2025-09-21 17:30:36 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_FAILED details=failed_attempts=2 ip=null
+2025-09-21 17:30:37 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_FAILED details=failed_attempts=3 ip=null
+2025-09-21 17:30:39 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_FAILED details=failed_attempts=4 ip=null
+2025-09-21 17:30:41 INFO  util.AuditLogger - [audit] user=U10012 action=ACCOUNT_LOCKED details=failed_attempts=5, locked_until=2025-09-21T17:45:41.063180600 ip=null
+2025-09-21 17:30:58 INFO  util.AuditLogger - [audit] user=U10012 action=LOGIN_LOCKED details=locked_until=2025-09-21 17:45:41.0 ip=null
+2025-09-21 17:34:59 INFO  util.AuditLogger - [audit] user=U10013 action=LOGIN_SUCCESS details=null ip=null
+2025-09-21 17:35:14 INFO  util.AuditLogger - [audit] user=U10013 action=LOGIN_FAILED details=failed_attempts=1 ip=null
+2025-09-21 17:35:16 INFO  util.AuditLogger - [audit] user=U10013 action=LOGIN_FAILED details=failed_attempts=2 ip=null
+2025-09-21 17:35:30 INFO  util.AuditLogger - [audit] user=U10013 action=LOGIN_FAILED details=failed_attempts=3 ip=null
+2025-09-21 17:37:02 INFO  util.AuditLogger - [audit] user=U10013 action=LOGIN_FAILED details=failed_attempts=4 ip=null
+2025-09-21 17:38:00 INFO  util.AuditLogger - [audit] user=U10014 action=LOGIN_SUCCESS details=null ip=null
+2025-09-21 17:38:14 INFO  util.AuditLogger - [audit] user=U10014 action=LOGIN_FAILED details=failed_attempts=1 ip=null
+2025-09-21 17:38:17 INFO  util.AuditLogger - [audit] user=U10014 action=LOGIN_FAILED details=failed_attempts=2 ip=null
+2025-09-21 17:38:28 INFO  util.AuditLogger - [audit] user=U10014 action=LOGIN_FAILED details=failed_attempts=3 ip=null
+2025-09-21 17:38:30 INFO  util.AuditLogger - [audit] user=U10014 action=LOGIN_FAILED details=failed_attempts=4 ip=null
+2025-09-21 17:38:41 INFO  util.AuditLogger - [audit] user=U10014 action=ACCOUNT_LOCKED details=failed_attempts=5, locked_until=2025-09-21T17:53:41.258525700 ip=null
+2025-09-21 17:38:57 INFO  util.AuditLogger - [audit] user=U10014 action=LOGIN_LOCKED details=locked_until=2025-09-21 17:53:41.0 ip=null
+2025-09-21 17:41:01 INFO  util.AuditLogger - [audit] user=U10015 action=LOGIN_SUCCESS details=null ip=null
+2025-09-21 17:41:36 INFO  util.AuditLogger - [audit] user=U10015 action=LOGIN_SUCCESS details=null ip=null
+2025-09-21 17:41:48 INFO  util.AuditLogger - [audit] user=U10015 action=LOGIN_FAILED details=failed_attempts=1 ip=null
+2025-09-21 17:41:56 INFO  util.AuditLogger - [audit] user=U10015 action=LOGIN_FAILED details=failed_attempts=2 ip=null
+2025-09-21 17:41:57 INFO  util.AuditLogger - [audit] user=U10015 action=LOGIN_FAILED details=failed_attempts=3 ip=null
+2025-09-21 17:42:03 INFO  util.AuditLogger - [audit] user=U10015 action=LOGIN_FAILED details=failed_attempts=4 ip=null
+2025-09-21 17:42:05 INFO  util.AuditLogger - [audit] user=U10015 action=ACCOUNT_LOCKED details=failed_attempts=5, locked_until=2025-09-21T17:57:05.213992600 ip=null
+2025-09-21 17:42:25 INFO  util.AuditLogger - [audit] user=U10015 action=LOGIN_LOCKED details=locked_until=2025-09-21 17:57:05.0 ip=null
+2025-09-21 18:20:40 INFO  util.AuditLogger - [audit] user=U10012 action=TEST_AUDIT_EVENT details=unit-test proof ip=127.0.0.1
