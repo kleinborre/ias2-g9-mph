@@ -3,6 +3,8 @@ package service;
 import dao.UserDAO;
 import daoimpl.UserDAOImpl;
 import pojo.User;
+import util.PasswordUtil;
+import util.AuditLogger;
 
 import java.sql.SQLException;
 import java.sql.SQLNonTransientConnectionException;
@@ -50,7 +52,12 @@ public class UserService {
 
     public void addUser(User user) {
         try {
+            String pwd = user.getPassword();
+            if (!PasswordUtil.isHash(pwd)) {
+                user.setPassword(PasswordUtil.hash(pwd));
+            }
             userDAO.addUser(user);
+            AuditLogger.log(user.getUserID(), "USER_CREATED", "role=" + user.getUserRole(), null);
         } catch (SQLException e) {
             throw new RuntimeException("Error adding user", e);
         }
@@ -58,14 +65,19 @@ public class UserService {
 
     public void updateUser(User user) {
         try {
+            String pwd = user.getPassword();
+            if (!PasswordUtil.isHash(pwd)) {
+                user.setPassword(PasswordUtil.hash(pwd));
+            }
             userDAO.updateUser(user);
+            AuditLogger.log(user.getUserID(), "USER_UPDATED", "role=" + user.getUserRole(), null);
         } catch (SQLException e) {
-            // if it's a closed connection, retry once
             if (e instanceof SQLNonTransientConnectionException
                 || e.getMessage().toLowerCase().contains("connection is closed")) {
                 try {
                     userDAO = new UserDAOImpl();
                     userDAO.updateUser(user);
+                    AuditLogger.log(user.getUserID(), "USER_UPDATED", "retry after reconnect", null);
                     return;
                 } catch (SQLException ex2) {
                     throw new RuntimeException("Error updating user after reconnect", ex2);
@@ -78,6 +90,7 @@ public class UserService {
     public void deleteUser(String userID) {
         try {
             userDAO.deleteUser(userID);
+            AuditLogger.log(userID, "USER_DELETED", null, null);
         } catch (SQLException e) {
             throw new RuntimeException("Error deleting user", e);
         }
