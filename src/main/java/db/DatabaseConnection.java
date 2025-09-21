@@ -6,15 +6,18 @@ import java.sql.SQLException;
 
 public class DatabaseConnection {
 
+    // Development: local, non-SSL
     private static final String URL      = "jdbc:mysql://localhost:3306/payrollsystem_db";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "";
 
+    // Production (example): enable TLS once server certificates are configured
+    // private static final String URL =
+    //     "jdbc:mysql://db-host:3306/payrollsystem_db?useSSL=true&requireSSL=true&verifyServerCertificate=true";
+
     private static DatabaseConnection instance;
 
-    private DatabaseConnection() {
-        // no longer holds a persistent Connection
-    }
+    private DatabaseConnection() { }
 
     public static synchronized DatabaseConnection getInstance() {
         if (instance == null) {
@@ -23,10 +26,6 @@ public class DatabaseConnection {
         return instance;
     }
 
-    /** 
-     * Returns a brand-new Connection each time. 
-     * Closing it in your DAO / service code won't break anybody else. 
-     */
     public Connection getConnection() {
         try {
             return DriverManager.getConnection(URL, USERNAME, PASSWORD);
