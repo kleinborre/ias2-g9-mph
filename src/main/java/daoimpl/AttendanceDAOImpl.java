@@ -16,10 +16,18 @@ public class AttendanceDAOImpl implements AttendanceDAO {
         connection = DatabaseConnection.getInstance().getConnection();
     }
 
+    /** Reacquire the connection if it was closed by server/timeout. */
+    private Connection ensureConnection() throws SQLException {
+        if (connection == null || connection.isClosed()) {
+            connection = DatabaseConnection.getInstance().getConnection();
+        }
+        return connection;
+    }
+
     @Override
     public Attendance getAttendanceByID(int attendanceID) throws SQLException {
         String query = "SELECT * FROM attendance WHERE attendanceID = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query)) {
             stmt.setInt(1, attendanceID);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -34,7 +42,7 @@ public class AttendanceDAOImpl implements AttendanceDAO {
     public List<Attendance> getAttendanceByEmployeeID(int employeeID) throws SQLException {
         List<Attendance> attendanceList = new ArrayList<>();
         String query = "SELECT * FROM attendance WHERE employeeID = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query)) {
             stmt.setInt(1, employeeID);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -49,7 +57,7 @@ public class AttendanceDAOImpl implements AttendanceDAO {
     public List<Attendance> getAttendanceByDate(Date date) throws SQLException {
         List<Attendance> attendanceList = new ArrayList<>();
         String query = "SELECT * FROM attendance WHERE date = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query)) {
             stmt.setDate(1, date);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -64,7 +72,7 @@ public class AttendanceDAOImpl implements AttendanceDAO {
     public List<Attendance> getAllAttendance() throws SQLException {
         List<Attendance> attendanceList = new ArrayList<>();
         String query = "SELECT * FROM attendance";
-        try (PreparedStatement stmt = connection.prepareStatement(query);
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 attendanceList.add(mapResultSetToAttendance(rs));
@@ -75,9 +83,8 @@ public class AttendanceDAOImpl implements AttendanceDAO {
 
     @Override
     public void addAttendance(Attendance attendance) throws SQLException {
-        String query = "INSERT INTO attendance (date, logIn, logOut, workedHours, employeeID) " +
-                       "VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        String query = "INSERT INTO attendance (date, logIn, logOut, workedHours, employeeID) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query)) {
             stmt.setDate(1, attendance.getDate());
             stmt.setTime(2, attendance.getLogIn());
             stmt.setTime(3, attendance.getLogOut());
@@ -89,9 +96,8 @@ public class AttendanceDAOImpl implements AttendanceDAO {
 
     @Override
     public void updateAttendance(Attendance attendance) throws SQLException {
-        String query = "UPDATE attendance SET date = ?, logIn = ?, logOut = ?, workedHours = ?, employeeID = ? " +
-                       "WHERE attendanceID = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        String query = "UPDATE attendance SET date = ?, logIn = ?, logOut = ?, workedHours = ?, employeeID = ? WHERE attendanceID = ?";
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query)) {
             stmt.setDate(1, attendance.getDate());
             stmt.setTime(2, attendance.getLogIn());
             stmt.setTime(3, attendance.getLogOut());
@@ -105,13 +111,12 @@ public class AttendanceDAOImpl implements AttendanceDAO {
     @Override
     public void deleteAttendance(int attendanceID) throws SQLException {
         String query = "DELETE FROM attendance WHERE attendanceID = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query)) {
             stmt.setInt(1, attendanceID);
             stmt.executeUpdate();
         }
     }
 
-    // Helper method to map ResultSet to Attendance POJO
     private Attendance mapResultSetToAttendance(ResultSet rs) throws SQLException {
         Attendance attendance = new Attendance();
         attendance.setAttendanceID(rs.getInt("attendanceID"));

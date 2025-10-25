@@ -16,10 +16,17 @@ public class OvertimeDAOImpl implements ManageableRequestDAO<Overtime> {
         connection = DatabaseConnection.getInstance().getConnection();
     }
 
+    private Connection ensureConnection() throws SQLException {
+        if (connection == null || connection.isClosed()) {
+            connection = DatabaseConnection.getInstance().getConnection();
+        }
+        return connection;
+    }
+
     @Override
     public Overtime getRequestByID(int requestID) throws SQLException {
         String query = "SELECT * FROM overtime WHERE overtimeID = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query)) {
             stmt.setInt(1, requestID);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -34,7 +41,7 @@ public class OvertimeDAOImpl implements ManageableRequestDAO<Overtime> {
     public List<Overtime> getRequestsByEmployeeID(int employeeID) throws SQLException {
         List<Overtime> overtimeList = new ArrayList<>();
         String query = "SELECT * FROM overtime WHERE employeeID = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query)) {
             stmt.setInt(1, employeeID);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -49,7 +56,7 @@ public class OvertimeDAOImpl implements ManageableRequestDAO<Overtime> {
     public List<Overtime> getAllRequests() throws SQLException {
         List<Overtime> overtimeList = new ArrayList<>();
         String query = "SELECT * FROM overtime";
-        try (PreparedStatement stmt = connection.prepareStatement(query);
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 overtimeList.add(mapResultSetToOvertime(rs));
@@ -60,9 +67,8 @@ public class OvertimeDAOImpl implements ManageableRequestDAO<Overtime> {
 
     @Override
     public void addRequest(Overtime overtime) throws SQLException {
-        String query = "INSERT INTO overtime (overtimeStart, overtimeEnd, overtimeReason, approvalStatusID, employeeID) " +
-                       "VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        String query = "INSERT INTO overtime (overtimeStart, overtimeEnd, overtimeReason, approvalStatusID, employeeID) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query)) {
             stmt.setTimestamp(1, overtime.getOvertimeStart());
             stmt.setTimestamp(2, overtime.getOvertimeEnd());
             stmt.setString(3, overtime.getOvertimeReason());
@@ -75,7 +81,7 @@ public class OvertimeDAOImpl implements ManageableRequestDAO<Overtime> {
     @Override
     public void updateApprovalStatus(int requestID, int approvalStatusID) throws SQLException {
         String query = "UPDATE overtime SET approvalStatusID = ? WHERE overtimeID = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query)) {
             stmt.setInt(1, approvalStatusID);
             stmt.setInt(2, requestID);
             stmt.executeUpdate();
@@ -85,13 +91,12 @@ public class OvertimeDAOImpl implements ManageableRequestDAO<Overtime> {
     @Override
     public void deleteRequest(int requestID) throws SQLException {
         String query = "DELETE FROM overtime WHERE overtimeID = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query)) {
             stmt.setInt(1, requestID);
             stmt.executeUpdate();
         }
     }
 
-    // Helper method to map ResultSet to Overtime POJO
     private Overtime mapResultSetToOvertime(ResultSet rs) throws SQLException {
         Overtime overtime = new Overtime();
         overtime.setOvertimeID(rs.getInt("overtimeID"));
@@ -106,7 +111,7 @@ public class OvertimeDAOImpl implements ManageableRequestDAO<Overtime> {
     @Override
     public void updateRequest(Overtime overtime) throws SQLException {
         String query = "UPDATE overtime SET overtimeStart = ?, overtimeEnd = ?, overtimeReason = ?, approvalStatusID = ?, employeeID = ? WHERE overtimeID = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query)) {
             stmt.setTimestamp(1, overtime.getOvertimeStart());
             stmt.setTimestamp(2, overtime.getOvertimeEnd());
             stmt.setString(3, overtime.getOvertimeReason());

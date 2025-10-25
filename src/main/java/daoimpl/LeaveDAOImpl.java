@@ -16,10 +16,17 @@ public class LeaveDAOImpl implements ManageableRequestDAO<Leave> {
         connection = DatabaseConnection.getInstance().getConnection();
     }
 
+    private Connection ensureConnection() throws SQLException {
+        if (connection == null || connection.isClosed()) {
+            connection = DatabaseConnection.getInstance().getConnection();
+        }
+        return connection;
+    }
+
     @Override
     public Leave getRequestByID(int requestID) throws SQLException {
         String query = "SELECT * FROM leaves WHERE leaveID = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query)) {
             stmt.setInt(1, requestID);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -34,7 +41,7 @@ public class LeaveDAOImpl implements ManageableRequestDAO<Leave> {
     public List<Leave> getRequestsByEmployeeID(int employeeID) throws SQLException {
         List<Leave> leaveList = new ArrayList<>();
         String query = "SELECT * FROM leaves WHERE employeeID = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query)) {
             stmt.setInt(1, employeeID);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -46,10 +53,10 @@ public class LeaveDAOImpl implements ManageableRequestDAO<Leave> {
     }
 
     @Override
-    public List<Leave> getAllRequests() throws SQLException {
+       public List<Leave> getAllRequests() throws SQLException {
         List<Leave> leaveList = new ArrayList<>();
         String query = "SELECT * FROM leaves";
-        try (PreparedStatement stmt = connection.prepareStatement(query);
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 leaveList.add(mapResultSetToLeave(rs));
@@ -60,9 +67,8 @@ public class LeaveDAOImpl implements ManageableRequestDAO<Leave> {
 
     @Override
     public void addRequest(Leave leave) throws SQLException {
-        String query = "INSERT INTO leaves (leaveAllowance, leaveStart, leaveEnd, leaveReason, dateCreated, employeeID, approvalStatusID, leaveTypeID) " +
-                       "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        String query = "INSERT INTO leaves (leaveAllowance, leaveStart, leaveEnd, leaveReason, dateCreated, employeeID, approvalStatusID, leaveTypeID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query)) {
             stmt.setDouble(1, leave.getLeaveAllowance());
             stmt.setDate(2, leave.getLeaveStart());
             stmt.setDate(3, leave.getLeaveEnd());
@@ -78,7 +84,7 @@ public class LeaveDAOImpl implements ManageableRequestDAO<Leave> {
     @Override
     public void updateApprovalStatus(int requestID, int approvalStatusID) throws SQLException {
         String query = "UPDATE leaves SET approvalStatusID = ? WHERE leaveID = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query)) {
             stmt.setInt(1, approvalStatusID);
             stmt.setInt(2, requestID);
             stmt.executeUpdate();
@@ -88,13 +94,12 @@ public class LeaveDAOImpl implements ManageableRequestDAO<Leave> {
     @Override
     public void deleteRequest(int requestID) throws SQLException {
         String query = "DELETE FROM leaves WHERE leaveID = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query)) {
             stmt.setInt(1, requestID);
             stmt.executeUpdate();
         }
     }
 
-    // Helper method to map ResultSet to Leave POJO
     private Leave mapResultSetToLeave(ResultSet rs) throws SQLException {
         Leave leave = new Leave();
         leave.setLeaveID(rs.getInt("leaveID"));
@@ -109,10 +114,10 @@ public class LeaveDAOImpl implements ManageableRequestDAO<Leave> {
         return leave;
     }
 
-    // Add at the bottom of LeaveDAOImpl
+    // Convenience lookups (unchanged, now via ensureConnection)
     public String getApprovalStatusName(int approvalStatusID) throws SQLException {
         String query = "SELECT approvalStatus FROM approvalstatus WHERE approvalStatusID = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query)) {
             stmt.setInt(1, approvalStatusID);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) return rs.getString("approvalStatus");
@@ -123,7 +128,7 @@ public class LeaveDAOImpl implements ManageableRequestDAO<Leave> {
 
     public String getLeaveTypeName(int leaveTypeID) throws SQLException {
         String query = "SELECT leaveType FROM leavetype WHERE leaveTypeID = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query)) {
             stmt.setInt(1, leaveTypeID);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) return rs.getString("leaveType");
@@ -135,7 +140,7 @@ public class LeaveDAOImpl implements ManageableRequestDAO<Leave> {
     @Override
     public void updateRequest(Leave leave) throws SQLException {
         String query = "UPDATE leaves SET leaveAllowance = ?, leaveStart = ?, leaveEnd = ?, leaveReason = ?, dateCreated = ?, employeeID = ?, approvalStatusID = ?, leaveTypeID = ? WHERE leaveID = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+        try (PreparedStatement stmt = ensureConnection().prepareStatement(query)) {
             stmt.setDouble(1, leave.getLeaveAllowance());
             stmt.setDate(2, leave.getLeaveStart());
             stmt.setDate(3, leave.getLeaveEnd());
