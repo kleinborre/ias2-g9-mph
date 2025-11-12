@@ -10,11 +10,11 @@ import java.util.List;
 
 public class PayslipDAOImpl implements PayslipDAO {
 
-    public PayslipDAOImpl() {}
+    // Note: Removed empty no-arg constructor to satisfy S1186 (methods should not be empty)
 
     @Override
     public Payslip getPayslipByPayslipNo(String payslipNo) throws SQLException {
-        String sql = "SELECT * FROM v_motorph_payslip WHERE PAYSILP_NO = ?";
+        final String sql = "SELECT * FROM v_motorph_payslip WHERE PAYSILP_NO = ?";
         try (Connection conn = DatabaseConnection.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, payslipNo);
@@ -29,7 +29,7 @@ public class PayslipDAOImpl implements PayslipDAO {
 
     @Override
     public List<Payslip> getPayslipsByEmployeeID(int employeeID) throws SQLException {
-        String sql = "SELECT * FROM v_motorph_payslip WHERE EMPLOYEE_ID = ? ORDER BY PERIOD_END_DATE DESC";
+        final String sql = "SELECT * FROM v_motorph_payslip WHERE EMPLOYEE_ID = ? ORDER BY PERIOD_END_DATE DESC";
         List<Payslip> payslips = new ArrayList<>();
         try (Connection conn = DatabaseConnection.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -45,7 +45,7 @@ public class PayslipDAOImpl implements PayslipDAO {
 
     @Override
     public List<Payslip> getAllPayslips() throws SQLException {
-        String sql = "SELECT * FROM v_motorph_payslip ORDER BY PERIOD_END_DATE DESC";
+        final String sql = "SELECT * FROM v_motorph_payslip ORDER BY PERIOD_END_DATE DESC";
         List<Payslip> payslips = new ArrayList<>();
         try (Connection conn = DatabaseConnection.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -59,6 +59,7 @@ public class PayslipDAOImpl implements PayslipDAO {
 
     private Payslip mapResultSetToPayslip(ResultSet rs) throws SQLException {
         Payslip p = new Payslip();
+        // Column names follow the view definition. Keep as-is to avoid breaking mapping.
         p.setPayslipNo(rs.getString("PAYSILP_NO"));
         p.setEmployeeID(rs.getInt("EMPLOYEE_ID"));
         p.setEmployeeName(rs.getString("EMPLOYEE_NAME"));
