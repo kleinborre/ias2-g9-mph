@@ -15,8 +15,9 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getUserByUserID(String userID) throws SQLException {
         String sql =
-          "SELECT a.userID, CONCAT(e.firstName,' ',e.lastName) AS username," +
-          "       e.email, a.passwordHash, a.accountStatus, ur.role, e.positionID " +
+          "SELECT a.userID, " +
+          "       CONCAT(e.firstName,' ',e.lastName) AS username, " +
+          "       e.email, a.accountStatus, ur.role, e.positionID " + // passwordHash intentionally excluded
           "  FROM authentication a " +
           "  JOIN userrole ur ON a.roleID = ur.roleID " +
           "  JOIN employee   e ON a.userID = e.userID " +
@@ -37,8 +38,9 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getUserByEmail(String email) throws SQLException {
         String sql =
-          "SELECT a.userID, CONCAT(e.firstName,' ',e.lastName) AS username," +
-          "       e.email, a.passwordHash, a.accountStatus, ur.role, e.positionID " +
+          "SELECT a.userID, " +
+          "       CONCAT(e.firstName,' ',e.lastName) AS username, " +
+          "       e.email, a.accountStatus, ur.role, e.positionID " + // passwordHash intentionally excluded
           "  FROM authentication a " +
           "  JOIN userrole ur ON a.roleID = ur.roleID " +
           "  JOIN employee   e ON a.userID = e.userID " +
@@ -59,8 +61,9 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getUserByUsername(String username) throws SQLException {
         String sql =
-          "SELECT a.userID, CONCAT(e.firstName,' ',e.lastName) AS username," +
-          "       e.email, a.passwordHash, a.accountStatus, ur.role, e.positionID " +
+          "SELECT a.userID, " +
+          "       CONCAT(e.firstName,' ',e.lastName) AS username, " +
+          "       e.email, a.accountStatus, ur.role, e.positionID " + // passwordHash intentionally excluded
           "  FROM authentication a " +
           "  JOIN userrole ur ON a.roleID = ur.roleID " +
           "  JOIN employee   e ON a.userID = e.userID " +
@@ -82,8 +85,9 @@ public class UserDAOImpl implements UserDAO {
     public List<User> getAllUsers() throws SQLException {
         List<User> users = new ArrayList<>();
         String sql =
-          "SELECT a.userID, CONCAT(e.firstName,' ',e.lastName) AS username," +
-          "       e.email, a.passwordHash, a.accountStatus, ur.role, e.positionID " +
+          "SELECT a.userID, " +
+          "       CONCAT(e.firstName,' ',e.lastName) AS username, " +
+          "       e.email, a.accountStatus, ur.role, e.positionID " + // passwordHash intentionally excluded
           "  FROM authentication a " +
           "  JOIN userrole ur ON a.roleID = ur.roleID " +
           "  JOIN employee   e ON a.userID = e.userID";
@@ -107,12 +111,12 @@ public class UserDAOImpl implements UserDAO {
               PreparedStatement ps = conn.prepareStatement(authSql) )
         {
             ps.setString(1, user.getUserID());
-            ps.setString(2, user.getPassword());
+            ps.setString(2, user.getPassword()); // expected to be hashed by service
             ps.setString(3, user.getUserRole());
             ps.setString(4, user.getAccountStatus());
             ps.executeUpdate();
         }
-        // … then your employee insert as before …
+        // employee insert handled elsewhere in your flow
     }
 
     @Override
@@ -125,13 +129,12 @@ public class UserDAOImpl implements UserDAO {
         try ( Connection conn = DatabaseConnection.getInstance().getConnection();
               PreparedStatement ps = conn.prepareStatement(authSql) )
         {
-            ps.setString(1, user.getPassword());
+            ps.setString(1, user.getPassword()); // expected to be hashed by service
             ps.setString(2, user.getUserRole());
             ps.setString(3, user.getAccountStatus());
             ps.setString(4, user.getUserID());
             ps.executeUpdate();
         }
-        // … then your employee update as before …
     }
 
     @Override
@@ -149,7 +152,8 @@ public class UserDAOImpl implements UserDAO {
         u.setUserID(       rs.getString("userID"));
         u.setUsername(     rs.getString("username"));
         u.setEmail(        rs.getString("email"));
-        u.setPassword(     rs.getString("passwordHash"));
+        // IMPORTANT: do NOT copy passwordHash into the domain object
+        u.setPassword(     null);
         u.setAccountStatus(rs.getString("accountStatus"));
         u.setUserRole(     rs.getString("role"));
         u.setPositionID(   rs.getInt("positionID"));
